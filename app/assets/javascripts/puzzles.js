@@ -2,12 +2,14 @@
 function submitPuzzle() {
   event.preventDefault()
   var guess = $('#puzzle_guess').val().toUpperCase()
-  var formUrl = $('.edit_puzzle').attr('action')
+  var form = $('.edit_puzzle')
   var postData = $('.edit_puzzle').serializeArray()
-  $.post(formUrl, postData, function() {
+  $.post(form.attr('action'), postData, function() {
   })
   .done(function(data) {
-    $('#results').append("<div>" + data.msg + "</div>")
+    document.getElementById('tries').innerText = ['four','three','two','one','zero'][data.guesses]
+    form[0].reset()
+    $('#results').append("<div>" + data.msg + "</div><br>")
   })
   .fail(function(data) {
     $('#results').append("<div>Error! Something went terribly wrong!</div>")

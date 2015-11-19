@@ -21,9 +21,10 @@ class PuzzlesController < ApplicationController
 
   def update
     @puzzle = Puzzle.find(params[:id])
+    message = @puzzle.guess(params[:puzzle][:guess])
     respond_to do |format|
       if @puzzle.update(puzzle_params.except(:guess))
-        format.json { render json: {msg: @puzzle.guess(params[:puzzle][:guess])} }
+        format.json { render json: {msg: message, guesses: @puzzle.guesses} }
       else
         format.html { render :show }
         format.json { render json: @puzzle.errors }

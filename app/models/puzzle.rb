@@ -11,13 +11,14 @@ class Puzzle < ActiveRecord::Base
   end
 
   def guess(word)
-    self.guesses += 1
     word.upcase!
     if guesses > 4
       "Sorry. You failed to guess within 4 tries."
     elsif word == secret_word
+      self.guesses += 1
       "Success! You guessed the the secret word!"
     elsif words.include?(word)
+      self.guesses += 1
       "You guessed #{word}. Likeness=#{likeness(word)}"
     else
       "Word not found in puzzle."

@@ -13,3 +13,22 @@
  *= require_tree .
  *= require_self
  */
+
+@font-face {
+  font-family: 'FSEX300';
+  src: url('FSEX300.ttf') format('truetype');
+}
+body, a, p, div, span {
+  font-family: 'FSEX300';
+  font-size: 20px;
+  color: #1BE65C;
+  background-color: #06230E;
+}
+.main {
+  width: 70%;
+  margin: 30px auto;
+}
+.center {
+  margin: 0 auto;
+  text-align: center;
+}

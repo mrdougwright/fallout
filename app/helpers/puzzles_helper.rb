@@ -9,4 +9,8 @@ module PuzzlesHelper
     num = rand(0..60)
     Puzzle::Chars.sample(num).join('')
   end
+
+  def number_tries
+    ['four','three','two','one','zero'][@puzzle.guesses]
+  end
 end
