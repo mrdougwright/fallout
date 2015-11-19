@@ -12,7 +12,7 @@ class Puzzle < ActiveRecord::Base
 
   def guess(word)
     word.upcase!
-    if guesses > 4
+    if guesses >= 3
       "Sorry. You failed to guess within 4 tries."
     elsif word == secret_word
       self.guesses += 1
