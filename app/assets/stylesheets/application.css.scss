@@ -16,7 +16,9 @@
 
 @font-face {
   font-family: 'FSEX300';
-  src: url('FSEX300.ttf') format('truetype');
+  src: font-url( asset-path('FSEX300.ttf') ) format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 body, a, p, div, span {
   font-family: 'FSEX300';
