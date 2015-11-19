@@ -1,45 +1,34 @@
 class Puzzle < ActiveRecord::Base
-  after_initialize :init
+  after_create :init
+  Chars = "!@#$%^&*()_-+=~`<>,./?;:|{}[]ßå∂œ∑´®†¥¨ˆøπåß∂ƒ©˙∆˚¬Ω≈ç√∫˜µ≤≥".split('')
 
   def init
-    @words = CleanWords::Random.new.fetch(5,20)
-    @words.map(&:upcase)
-    self.secret_word = @words.sample
-  end
-
-  def words
-    @words
+    word_size  = [4,6,8][difficulty]
+    new_words  = CleanWords::Random.new.fetch(word_size,20).map(&:upcase)
+    self.words = new_words.join(',')
+    self.secret_word = new_words.sample
+    self.save!
   end
 
   def guess(word)
     self.guesses += 1
-    word = retrieve_word(word)
-    if word == secret_word
-      puts "Correct! The secret word is #{secret_word}."
-      puts "You guessed in #{guesses} tries."
+    word.upcase!
+    if guesses > 4
+      "Sorry. You failed to guess within 4 tries."
+    elsif word == secret_word
+      "Success! You guessed the the secret word!"
+    elsif words.include?(word)
+      "You guessed #{word}. Likeness=#{likeness(word)}"
     else
-      puts "You guessed #{word}"
-      puts "Wrong. You have #{4 - guesses} guesses left."
-      puts "Likeness = #{likeness(word)}"
+      "Word not found in puzzle."
     end
   end
 
   def likeness(word)
     matches = 0
-    word.split('').each_with_index do |l,i|
+    word.upcase.split('').each_with_index do |l,i|
       matches +=1 if l == secret_word[i]
     end
     matches
   end
-
-  def retrieve_word(word)
-    if word.is_a?(Integer) && (word + 1).between?(0, @words.count)
-      @words[word]
-    elsif @words.include? word
-      word
-    else
-      raise "Word not found in puzzle."
-    end
-  end
-
 end

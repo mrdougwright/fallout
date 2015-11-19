@@ -1,0 +1,14 @@
+<h1>Find Secret Word</h1>
+
+<%= display_words @puzzle.words %>
+<br>
+
+<p>You have four tries to guess the correct word.</p>
+
+<%= form_for(@puzzle, remote: true) do |f| %>
+  <%= f.text_field :guess, value: '' %>
+  <button href='#' onclick="submitPuzzle()">Guess</button>
+<% end %>
+
+<div id="results">
+</div>
